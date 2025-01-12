@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.SnackbarHostState
@@ -24,6 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.session14_firebase.PenyediaViewModel
 import com.example.session14_firebase.ui.viewmodel.FormErrorState
 import com.example.session14_firebase.ui.viewmodel.FormState
+import com.example.session14_firebase.ui.viewmodel.InsertUiState
 import com.example.session14_firebase.ui.viewmodel.InsertViewModel
 import com.example.session14_firebase.ui.viewmodel.MahasiswaEvent
 import kotlinx.coroutines.delay
@@ -59,6 +64,46 @@ fun InsertMhsView(
                 }
             }
             else -> Unit
+        }
+    }
+}
+
+@Composable
+fun InsertBodyMhs(
+    modifier: Modifier = Modifier,
+    onValueChange: (MahasiswaEvent) -> Unit,
+    uiState: InsertUiState,
+    onClick: () -> Unit,
+    homeUiState: FormState
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        FormMahasiswa(
+            mahasiswaEvent = uiState.insertUiEvent,
+            onValueChange = onValueChange,
+            errorState = uiState.isEntryValid,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Button(
+            onClick = onClick,
+            modifier = Modifier.fillMaxWidth(),
+            enabled = homeUiState !is FormState.Loading,
+        ) {
+            if (homeUiState is FormState.Loading) {
+                CircularProgressIndicator(
+                    color = Color.White,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(end = 8.dp)
+                )
+                Text("Loading...")
+            } else {
+                Text("Add")
+            }
         }
     }
 }
