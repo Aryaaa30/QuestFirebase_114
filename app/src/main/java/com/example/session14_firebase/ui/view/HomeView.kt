@@ -40,12 +40,10 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.session14_firebase.PenyediaViewModel
-//import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.session14_firebase.R
 import com.example.session14_firebase.model.Mahasiswa
 import com.example.session14_firebase.ui.viewmodel.HomeUiState
