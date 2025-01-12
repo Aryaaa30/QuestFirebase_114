@@ -82,7 +82,7 @@ fun HomeView(
             retryAction = { viewModel.getMhs() }, modifier = Modifier.padding(innerPadding),
             onDetailClick = onDetailClick,
             onDeleteClick = {
-                viewModel.getMhs()
+                viewModel.deleteMhs(it)
             }
         )
     }
@@ -93,7 +93,7 @@ fun HomeStatus(
     homeUiState: HomeUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
-    onDeleteClick: (String) -> Unit={},
+    onDeleteClick: (Mahasiswa) -> Unit={},
     onDetailClick: (String) -> Unit
 ){
     when(homeUiState) {
@@ -105,8 +105,8 @@ fun HomeStatus(
                     onDetailClick = {
                         onDetailClick(it.nim)
                     },
-                    onDeleteClick = {
-                        onDeleteClick(it)
+                    onDeleteClick = { mahasiswa ->
+                        onDeleteClick(mahasiswa)
                     }
                 )
         is HomeUiState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize(),
@@ -145,7 +145,7 @@ fun MhsLayout(
     mahasiswa: List<Mahasiswa>,
     modifier: Modifier = Modifier,
     onDetailClick: (Mahasiswa) -> Unit,
-    onDeleteClick: (String) -> Unit = {}
+    onDeleteClick: (Mahasiswa) -> Unit = {}
 ){
     LazyColumn (
         modifier = modifier,
@@ -159,7 +159,7 @@ fun MhsLayout(
                     .fillMaxWidth()
                     .clickable { onDetailClick(mahasiswa) },
                 onDeleteClick = {
-                    onDeleteClick(it)
+                    onDeleteClick(mahasiswa)
                 }
             )
         }
@@ -170,7 +170,7 @@ fun MhsLayout(
 fun MhsCard(
     mahasiswa: Mahasiswa,
     modifier: Modifier = Modifier,
-    onDeleteClick: (String) -> Unit = {}
+    onDeleteClick: (Mahasiswa) -> Unit = {}
 ) {
     Card(
         modifier = modifier
@@ -235,7 +235,7 @@ fun MhsCard(
             }
 
             // Tombol delete
-            IconButton(onClick = { onDeleteClick(mahasiswa.nim) }) {
+            IconButton(onClick = { onDeleteClick(mahasiswa) }) {
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete",
