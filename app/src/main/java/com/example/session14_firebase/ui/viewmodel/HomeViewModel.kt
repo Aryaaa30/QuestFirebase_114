@@ -30,7 +30,7 @@ class HomeViewModel(
 
     fun getMhs(){
         viewModelScope.launch {
-            mhs.getAllMahasiswa()
+            mhs.getAllMhs()
                 .onStart {
                     mhsUIState = HomeUiState.Loading
                 }
@@ -44,6 +44,16 @@ class HomeViewModel(
                         HomeUiState.Success(it)
                     }
                 }
+        }
+    }
+
+    fun deleteMhs(mahasiswa: Mahasiswa){
+        viewModelScope.launch {
+            try {
+                mhs.deleteMhs(mahasiswa)
+            }catch (e : Exception){
+                mhsUIState = HomeUiState.Error(e)
+            }
         }
     }
 }
