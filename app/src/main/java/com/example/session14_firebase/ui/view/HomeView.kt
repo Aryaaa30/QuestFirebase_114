@@ -37,11 +37,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.session14_firebase.PenyediaViewModel
 import com.example.session14_firebase.R
@@ -176,22 +180,26 @@ fun MhsCard(
             .padding(8.dp)
             .shadow(8.dp, shape = RoundedCornerShape(12.dp)),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFFE0F7FA)) // Warna latar belakang biru muda
+                .background(
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(
+                            Color(0xFFFF5722), // #ff5722
+                            Color(0xFFFF9800)  // #ff9800
+                        )
+                    )
+                )
                 .padding(16.dp)
         ) {
             // Bagian kiri: Logo atau gambar
             Box(
                 modifier = Modifier
                     .size(80.dp)
-                    .background(Color(0xFF0097A7), shape = RoundedCornerShape(8.dp)),
+                    .background(Color(0xFFF5D6C6), shape = RoundedCornerShape(8.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
@@ -208,27 +216,46 @@ fun MhsCard(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                // Nama mahasiswa dengan font yang menonjol
                 Text(
                     text = mahasiswa.nama,
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 0.5.sp,
+                        shadow = Shadow(
+                            color = Color.Black.copy(alpha = 0.5f),
+                            offset = Offset(2f, 2f),
+                            blurRadius = 4f
+                        )
                     ),
-                    color = Color(0xFF00796B) // Warna teks hijau tua
+                    color = Color.White
                 )
+                // NIM mahasiswa
                 Text(
                     text = "NIM: ${mahasiswa.nim}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF004D40)
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        letterSpacing = 0.3.sp
+                    ),
+                    color = Color.White
                 )
+                // Kelas mahasiswa
                 Text(
                     text = "Kelas: ${mahasiswa.kelas}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF004D40)
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        letterSpacing = 0.3.sp
+                    ),
+                    color = Color.White
                 )
+                // Alamat mahasiswa
                 Text(
                     text = "Alamat: ${mahasiswa.alamat}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF004D40)
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        letterSpacing = 0.3.sp
+                    ),
+                    color = Color.White
                 )
             }
 
@@ -237,9 +264,10 @@ fun MhsCard(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete",
-                    tint = Color.Black
+                    tint = Color.White
                 )
             }
         }
     }
 }
+
