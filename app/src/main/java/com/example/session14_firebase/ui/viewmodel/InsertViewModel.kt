@@ -5,12 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.session14_firebase.model.Dosen_1
+import com.example.session14_firebase.model.Dosen_2
 import com.example.session14_firebase.model.Mahasiswa
 import com.example.session14_firebase.repository.MahasiswaRepository
 import kotlinx.coroutines.launch
 
 class InsertViewModel(
-    private val mhs: MahasiswaRepository
+    private val mhs: MahasiswaRepository,
 ): ViewModel(){
 
     var uiEvent: InsertUiState by mutableStateOf(InsertUiState())
@@ -34,12 +36,14 @@ class InsertViewModel(
             jenisKelamin = if (event.jenisKelamin.isNotEmpty()) null else "Jenis Kelamin tidak boleh kosong",
             alamat = if (event.alamat.isNotEmpty()) null else "Alamat tidak boleh kosong",
             kelas = if (event.kelas.isNotEmpty()) null else "Kelas tidak boleh kosong",
+            judul_sktipsi = if (event.judul_sktipsi.isNotEmpty()) null else "Judul Skripsi tidak boleh kosong",
             angkatan = if (event.angkatan.isNotEmpty()) null else "Angkatan tidak boleh kosong"
         )
 
         uiEvent = uiEvent.copy(isEntryValid = errorState)
         return errorState.isValid()
     }
+
 
     fun insertMhs() {
         if (validateFields()) {
@@ -76,7 +80,7 @@ sealed class FormState {
 
 data class InsertUiState(
     val insertUiEvent: MahasiswaEvent = MahasiswaEvent(),
-    val isEntryValid: FormErrorState = FormErrorState()
+    val isEntryValid: FormErrorState = FormErrorState(),
 )
 
 data class FormErrorState(
@@ -85,11 +89,12 @@ data class FormErrorState(
     val jenisKelamin: String? = null,
     val alamat: String? = null,
     val kelas: String? = null,
+    val judul_sktipsi: String? = null,
     val angkatan: String? = null
 ) {
     fun isValid(): Boolean {
         return nim == null && nama == null && jenisKelamin == null &&
-                alamat == null && kelas == null && angkatan == null
+                alamat == null && judul_sktipsi == null && kelas == null && angkatan == null
     }
 }
 
@@ -100,7 +105,9 @@ data class MahasiswaEvent(
     val jenisKelamin: String = "",
     val alamat: String = "",
     val kelas: String = "",
+    val judul_sktipsi: String = "",
     val angkatan: String = ""
+
 )
 
 // Menyimpan input form ke dalam entity
@@ -110,6 +117,9 @@ fun MahasiswaEvent.toMhsModel(): Mahasiswa = Mahasiswa(
     jenis_kelamin = jenisKelamin,
     alamat = alamat,
     kelas = kelas,
+    judul_skripsi = judul_sktipsi,
     angkatan = angkatan
 )
+
+
 

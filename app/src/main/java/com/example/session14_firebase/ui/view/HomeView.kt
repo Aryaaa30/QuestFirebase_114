@@ -84,7 +84,8 @@ fun HomeView(
             retryAction = { viewModel.getMhs() }, modifier = Modifier.padding(innerPadding),
             onDetailClick = onDetailClick,
             onDeleteClick = {
-                viewModel.deleteMhs(it)
+                viewModel.deleteMhs(it.nim)
+                viewModel.getMhs()
             }
         )
     }
@@ -102,15 +103,15 @@ fun HomeStatus(
         is HomeUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
 
         is HomeUiState.Success ->
-                MhsLayout(
-                    mahasiswa = homeUiState.mahasiswa, modifier = modifier.fillMaxWidth(),
-                    onDetailClick = {
-                        onDetailClick(it.nim)
-                    },
-                    onDeleteClick = { mahasiswa ->
-                        onDeleteClick(mahasiswa)
-                    }
-                )
+            MhsLayout(
+                mahasiswa = homeUiState.mahasiswa, modifier = modifier.fillMaxWidth(),
+                onDetailClick = {
+                    onDetailClick(it.nim)
+                },
+                onDeleteClick = { mahasiswa ->
+                    onDeleteClick(mahasiswa)
+                }
+            )
         is HomeUiState.Error -> OnError(retryAction, modifier = modifier.fillMaxSize(),
             message = homeUiState.exception.message ?: "Error")
     }
@@ -129,7 +130,9 @@ fun OnLoading(modifier: Modifier = Modifier){
 }
 
 @Composable
-fun OnError(retryAction: ()->Unit, modifier: Modifier = Modifier, message: String){
+fun OnError(retryAction: ()->Unit,
+            modifier: Modifier = Modifier,
+            message: String){
     Column (
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -233,6 +236,15 @@ fun MhsCard(
                 // NIM mahasiswa
                 Text(
                     text = "NIM: ${mahasiswa.nim}",
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        letterSpacing = 0.3.sp
+                    ),
+                    color = Color.White
+                )
+                // Judul Skripsi
+                Text(
+                    text = "Judul Skripsi: ${mahasiswa.judul_skripsi}",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.SemiBold,
                         letterSpacing = 0.3.sp

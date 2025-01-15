@@ -8,9 +8,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
+
 class NetworkRepositoryMhs (
     private val firestore: FirebaseFirestore
-): MahasiswaRepository{
+): MahasiswaRepository {
     override suspend fun getAllMhs(): Flow<List<Mahasiswa>> = callbackFlow {
         val mhsCollection = firestore.collection("Mahasiswa")
             .orderBy("nim", Query.Direction.DESCENDING)
@@ -36,7 +37,7 @@ class NetworkRepositoryMhs (
         }
     }
 
-    override suspend fun updateMhs(mahasiswa: Mahasiswa) {
+    override suspend fun updateMhs(nim: String,mahasiswa: Mahasiswa) {
         try {
             firestore.collection("Mahasiswa")
                 .document(mahasiswa.nim)
@@ -47,10 +48,10 @@ class NetworkRepositoryMhs (
         }
     }
 
-    override suspend fun deleteMhs(mahasiswa: Mahasiswa) {
+    override suspend fun deleteMhs(nim: String) {
         try {
             firestore.collection("Mahasiswa")
-                .document(mahasiswa.nim)
+                .document(nim)
                 .delete()
                 .await()
         } catch (e: Exception) {
@@ -58,17 +59,15 @@ class NetworkRepositoryMhs (
         }
     }
 
-    override suspend fun getMhs(nim: String): Flow<Mahasiswa> = callbackFlow {
-        val mhsDocument = firestore.collection("Mahasiswa")
-            .document(nim)
-            .addSnapshotListener { value, error ->
-                if (value != null) {
-                    val mhs = value.toObject(Mahasiswa::class.java)!!
-                    trySend(mhs)
-                }
-            }
-        awaitClose {
-            mhsDocument.remove()
+    override suspend fun getMhs(nim: String): Mahasiswa{
+        try {
+            firestore.collection("Mahasiswa")
+                .document(nim)
+                .set(nim)
+                .await()
+        } catch (e: Exception) {
+            throw Exception("Gagal mengupdate data mahasiswa: ${e.message}")
         }
+        return getMhs(nim)
     }
 }

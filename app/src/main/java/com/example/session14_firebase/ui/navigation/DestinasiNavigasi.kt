@@ -10,7 +10,21 @@ object DestinasiHome : DestinasiNavigasi {
     override val titleRes: String = "Home"
 }
 
-object DestinasiInsert : DestinasiNavigasi {
-    override val route: String = "insert"
-    override val titleRes: String = "Insert"
+object DestinasiDetail: DestinasiNavigasi {
+    override val route = "detail"
+    override val titleRes = "Detail Mahasiswa"
+    const val NIM = "nim"
+    val routesWithArg = "$route/{$NIM}"
+}
+
+object DestinasiEntry: DestinasiNavigasi {
+    override val route ="item_entry"
+    override val titleRes = "Insert Mahasiswa"
+}
+
+object DestinasiUpdate: DestinasiNavigasi {
+    override val route = "update"
+    override val titleRes = "Edit Mahasiswa"
+    const val NIM = "nim"
+    val routesWithArg = "$route/{$NIM}"
 }

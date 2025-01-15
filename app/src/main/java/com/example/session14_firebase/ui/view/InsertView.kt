@@ -256,6 +256,20 @@ fun FormMahasiswa(
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.judul_sktipsi,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(judul_sktipsi = it))
+            },
+            label = { Text("Judul Skripsi") },
+            isError = errorState.judul_sktipsi != null,
+            placeholder = { Text("Masukkan Judul Skripsi") }
+        )
+        Text(text = errorState.judul_sktipsi ?: "", color = Color.Red)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
             value = mahasiswaEvent.angkatan,
             onValueChange = {
                 onValueChange(mahasiswaEvent.copy(angkatan = it))

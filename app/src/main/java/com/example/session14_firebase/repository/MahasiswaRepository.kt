@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface MahasiswaRepository {
     suspend fun getAllMhs(): Flow<List<Mahasiswa>>
     suspend fun insertMhs(mahasiswa: Mahasiswa)
-    suspend fun updateMhs(mahasiswa: Mahasiswa)
-    suspend fun deleteMhs(mahasiswa: Mahasiswa)
-    suspend fun getMhs(nim: String): Flow<Mahasiswa>
+    suspend fun updateMhs(nim: String,mahasiswa: Mahasiswa)
+    suspend fun deleteMhs(nim: String)
+    suspend fun getMhs(nim: String): Mahasiswa
 }

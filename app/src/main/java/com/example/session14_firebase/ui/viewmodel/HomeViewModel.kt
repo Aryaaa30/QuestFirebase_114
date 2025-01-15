@@ -47,10 +47,10 @@ class HomeViewModel(
         }
     }
 
-    fun deleteMhs(mahasiswa: Mahasiswa){
+    fun deleteMhs(nim: String){
         viewModelScope.launch {
             try {
-                mhs.deleteMhs(mahasiswa)
+                mhs.deleteMhs(nim)
             }catch (e : Exception){
                 mhsUIState = HomeUiState.Error(e)
             }
